@@ -479,6 +479,7 @@ function Select(baseProps: SelectProps, ref) {
     // 选项列表元素
     const eleOptionList = childrenList.length ? (
       <VirtualList
+        role="listbox"
         style={dropdownMenuStyle}
         className={cs(`${prefixCls}-popup-inner`, dropdownMenuClassName)}
         ref={refWrapper}

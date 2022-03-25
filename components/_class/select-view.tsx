@@ -354,11 +354,12 @@ export const SelectView = (props: SelectViewProps, ref) => {
     }
 
     // <input> is used to input and display placeholder, in other cases use <span> to display value to support displaying rich text
-    const needShowInput = (mergedFocused && canFocusInput) || isEmptyValue;
+    const needShowInput = !!((mergedFocused && canFocusInput) || isEmptyValue);
 
     return (
       <>
         <InputComponent
+          aria-hidden={!needShowInput}
           ref={refInput}
           disabled={disabled}
           className={cs(`${prefixCls}-view-input`, {
@@ -367,7 +368,10 @@ export const SelectView = (props: SelectViewProps, ref) => {
           autoComplete="off"
           {...inputProps}
         />
-        <span className={cs(`${prefixCls}-view-value`, { [`${prefixCls}-hidden`]: needShowInput })}>
+        <span
+          aria-hidden={needShowInput}
+          className={cs(`${prefixCls}-view-value`, { [`${prefixCls}-hidden`]: needShowInput })}
+        >
           {_inputValue}
         </span>
       </>
@@ -482,6 +486,12 @@ export const SelectView = (props: SelectViewProps, ref) => {
 
   return (
     <div
+      role="combobox"
+      aria-haspopup="listbox"
+      aria-autocomplete="list"
+      aria-expanded={popupVisible}
+      aria-disabled={disabled}
+      aria-controls=""
       {...include(rest, ['onClick', 'onMouseEnter', 'onMouseLeave'])}
       ref={refWrapper}
       tabIndex={disabled ? -1 : 0}
@@ -510,6 +520,7 @@ export const SelectView = (props: SelectViewProps, ref) => {
       >
         {prefix && (
           <div
+            aria-hidden="true"
             className={cs(`${prefixCls}-prefix`)}
             onMouseDown={(event) => focused && keepFocus(event)}
           >
@@ -519,7 +530,11 @@ export const SelectView = (props: SelectViewProps, ref) => {
 
         {isMultiple ? renderMultiple() : renderSingle()}
 
-        <div className={`${prefixCls}-suffix`} onMouseDown={(event) => focused && keepFocus(event)}>
+        <div
+          aria-hidden="true"
+          className={`${prefixCls}-suffix`}
+          onMouseDown={(event) => focused && keepFocus(event)}
+        >
           {mergedClearIcon}
           {mergedSuffixIcon}
         </div>

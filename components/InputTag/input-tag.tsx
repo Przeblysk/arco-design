@@ -379,7 +379,7 @@ function InputTag(baseProps: InputTagProps<string | ObjectValueType>, ref) {
         </UsedTransitionGroup>
 
         {hasSuffix && (
-          <div className={`${prefixCls}-suffix`} onMouseDown={keepFocus}>
+          <div aria-hidden="true" className={`${prefixCls}-suffix`} onMouseDown={keepFocus}>
             {clearIcon}
             {suffix}
           </div>
